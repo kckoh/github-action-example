@@ -1,6 +1,6 @@
 print("hello, world!")
 def newfunction():
-'''
-a new function
-'''
+	'''
+	a new function
+	'''
 	print('a new function') 
