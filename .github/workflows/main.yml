@@ -1,22 +1,83 @@
-name: deploy my lambda function
+# name: deploy my lambda function
+
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: checkout code
+#         uses: actions/checkout@v2
+#       - name: set up python
+#         uses: actions/setup-python@v2
+#         with:
+#           pyton-version: 3.8
+#       - name: install libraries
+#         run: |
+#             cd function
+#             python -m pip install --upgrade pip
+#             if [- f requirements.txt]; then pip install -r requirements.txt -t .; fi
+
+# name: deploy my lambda function
+
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: checkout code
+#         uses: actions/checkout@v3
+#       - name: set up python
+#         uses: actions/setup-python@v2
+#         with:
+#           pyton-version: 3.8
+#       - name: install libraries
+#         run: |
+#             cd function
+#             python -m pip install --upgrade pip
+#             if [- f requirements.txt]; then pip install -r requirements.txt -t .; fi
+
+# github action yml for lambda
+
+name: Deploy Lambda Function
 
 on:
   push:
     branches:
-      - main
+      - main  # Change to your branch name
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: checkout code
+      - name: Checkout code
         uses: actions/checkout@v2
-      - name: set up python
-        uses: actions/setup-python@v2
+
+      - name: Set up AWS CLI
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          pyton-version: 3.8
-      - name: install libraries
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-2  # Change to your AWS region
+
+      - name: Deploy Lambda
         run: |
-            cd function
-            python -m pip install --upgrade pip
-            if [- f requirements.txt]; then pip install -r requirements.txt -t .; fi
+          # Replace with your Lambda deployment logic using AWS CLI or other tools
+          # Example: Deploying Lambda function code
+          zip test.zip filters.py indicators.py lambda_function.py metric_generators.py parameter_setters.py targets.py helpers.py dictionaries.py
+          aws s3 cp ./test.zip s3://elevate-data-stack-v8-repeat-s3bucket-153cf15ab1605
+          # aws lambda update-function-code \
+          #   --function-name YourLambdaFunctionName \
+          #   --zip-file fileb://path/to/your/deployment-package.zip
+        # Replace YourLambdaFunctionName with the actual Lambda function name
+        # Replace path/to/your/deployment-package.zip with the path to your Lambda deployment package
+
+
