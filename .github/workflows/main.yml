@@ -69,6 +69,10 @@ jobs:
       - run: |
            zip test.zip filters.py indicators.py lambda_function.py metric_generators.py parameter_setters.py targets.py helpers.py dictionaries.py
            aws s3 cp ./test.zip s3://elevate-data-stack-v8-repeat-s3bucket-153cf15ab1605
+           aws lambda update-function-code \
+            --function-name impact_v3_dev \
+            --s3-bucket elevate-data-stack-v8-repeat-s3bucket-153cf15ab1605 \
+            --s3-key test.zip
 
   # deploy:
   #   runs-on: ubuntu-latest
