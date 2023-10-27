@@ -56,6 +56,7 @@ from helpers import getMetricAndParamClasses
 
 
 def lambda_handler(event, context):
+    # testing for github actions
     tic = perf_counter()
     api_input = {}
     if event is not None:
